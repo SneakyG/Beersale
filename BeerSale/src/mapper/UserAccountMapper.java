@@ -15,6 +15,7 @@ public class UserAccountMapper implements IRowMapper<UserAccountDTO> {
 			dto.setUserName(resultSet.getString("username"));
 			dto.setPassword(resultSet.getString("password"));
 			dto.setStatus(resultSet.getInt("status"));
+			dto.setMoney(resultSet.getInt("money"));
 			dto.setRoleId(resultSet.getInt("role_id"));
 			dto.setRegDate(resultSet.getString("reg_date"));
 			dto.setUpdtDate(resultSet.getString("updt_date"));

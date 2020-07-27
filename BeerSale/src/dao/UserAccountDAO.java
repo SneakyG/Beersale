@@ -31,8 +31,8 @@ public class UserAccountDAO extends AbstractDAO<UserAccountDTO> implements IUser
 
 	@Override
 	public void insert(UserAccountDTO dto) {
-		String sql = "INSERT INTO user_account(username,password,role_id,status,reg_date,updt_date)"
-					+ " VALUES(?,?,2,1,now(),now())";
+		String sql = "INSERT INTO user_account(username,password,role_id,status,money,reg_date,updt_date)"
+					+ " VALUES(?,?,2,1,0,now(),now())";
 		insert(sql, dto.getUserName(), dto.getPassword());
 	}
 
@@ -45,8 +45,8 @@ public class UserAccountDAO extends AbstractDAO<UserAccountDTO> implements IUser
 
 	@Override
 	public int update(UserAccountDTO dto) {
-		String sql = "UPDATE user_account SET password = ?,status = ?,updt_date = now(), updt_id = ? WHERE id = ?";
-		return update(sql, dto.getPassword(),dto.getStatus(),dto.getUpdtId(),dto.getId());
+		String sql = "UPDATE user_account SET password = ?,status = ?, money = ?, updt_date = now(), updt_id = ? WHERE id = ?";
+		return update(sql, dto.getPassword(),dto.getStatus(), dto.getMoney(), dto.getUpdtId(),dto.getId());
 	}
 
 	

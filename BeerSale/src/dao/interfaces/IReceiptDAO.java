@@ -11,4 +11,6 @@ public interface IReceiptDAO {
 	ReceiptDTO findOne(int id);
 	
 	int update(ReceiptDTO receipt);
+	
+	void insert(ReceiptDTO receipt);
 }

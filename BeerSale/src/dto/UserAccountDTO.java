@@ -5,6 +5,7 @@ public class UserAccountDTO extends CommonDTO {
 	private String password;
 	private int roleId;
 	private int status;
+	private int money;
 
 	public String getUserName() {
 		return userName;
@@ -37,10 +38,18 @@ public class UserAccountDTO extends CommonDTO {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	public int getMoney() {
+		return money;
+	}
+	
+	public void setMoney(int money) {
+		this.money = money;
+	}
 
 	@Override
 	public String toString() {
-		String s = userName + "--" + password + "--" + status + "--" + regId + "--" + regDate + "--" + updtId + "--" + updtDate;
+		String s = userName + "--" + password + "--" + status + "--" + money + "--" + regId + "--" + regDate + "--" + updtId + "--" + updtDate;
 		return s;
 	}
 }

@@ -29,4 +29,10 @@ public class ReceiptDAO extends AbstractDAO<ReceiptDTO> implements IReceiptDAO {
 		return result;
 	}
 
+	@Override
+	public void insert(ReceiptDTO receipt) {
+		String sql = "INSERT INTO receipt(user_id,total,status,reg_id,reg_date,updt_id,updt_date) VALUES(?,?,?,?,now(),?,now())";
+		insert(sql, receipt.getUserId(),receipt.getTotal(),receipt.getStatus(),receipt.getRegId(),receipt.getUpdtId());
+	}
+
 }

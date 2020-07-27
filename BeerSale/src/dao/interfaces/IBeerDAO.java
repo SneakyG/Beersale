@@ -10,7 +10,9 @@ public interface IBeerDAO {
 	
 	BeerDTO findOne(int id);
 	
-	boolean findOneByName(String name);
+	int findMinCost();
+	
+	BeerDTO findOneByName(String name);
 	
 	List<BeerDTO> findAllByBrand(String brand);
 	

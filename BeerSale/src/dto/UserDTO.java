@@ -5,19 +5,17 @@ public class UserDTO extends CommonDTO {
 	private String name;
 	private String email;
 	private int phoneNumber;
-	private int money;
 	
 	public UserDTO() {
 	}
 
-	public UserDTO(int userAccountId, String name, String email, int phoneNumber, int regId, int updtId, int money) {
+	public UserDTO(int userAccountId, String name, String email, int phoneNumber, int regId, int updtId) {
 		this.userAccountId = userAccountId;
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.regId = regId;
 		this.updtId = updtId;
-		this.money = money;
 	}
 
 	public int getUserAccountId() {
@@ -50,14 +48,6 @@ public class UserDTO extends CommonDTO {
 
 	public void setPhoneNumber(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
-	}
-	
-	public int getMoney() {
-		return money;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
 	}
 
 	

@@ -9,9 +9,9 @@ import mapper.UserMapper;
 public class UserDAO extends AbstractDAO<UserDTO> implements IUserDAO {
 
 	@Override
-	public void insert(UserDTO dto) {
+	public void insert(UserDTO user) {
 		String sql = "INSERT INTO user(name,user_account_id,email,phone_number,money,reg_id,reg_date,updt_id,updt_date) VALUES(?,?,?,?,0,?,now(),?,now())";
-		insert(sql, dto.getName(),dto.getUserAccountId(),dto.getEmail(),dto.getPhoneNumber(),dto.getRegId(),dto.getUpdtId());
+		insert(sql, user.getName(),user.getUserAccountId(),user.getEmail(),user.getPhoneNumber(),user.getRegId(),user.getUpdtId());
 	}
 
 	@Override

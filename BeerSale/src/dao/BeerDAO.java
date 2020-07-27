@@ -34,9 +34,9 @@ public class BeerDAO extends AbstractDAO<BeerDTO> implements IBeerDAO {
 	public int update(BeerDTO beer) {
 		String sql = "UPDATE beer SET name = ?, brand = ?, origin_brand = ?, origin = ?, ingredient = ?, capacity = ?, cost = ?, count = ?,"
 				+ " updt_id = ?, updt_date = now() WHERE id = ?";
-		int id = update(sql, beer.getName(), beer.getBrand(), beer.getOriginBrand(), beer.getOrigin(), beer.getIngredient(), beer.getCapacity(), beer.getCost(),
+		return update(sql, beer.getName(), beer.getBrand(), beer.getOriginBrand(), beer.getOrigin(), beer.getIngredient(), beer.getCapacity(), beer.getCost(),
 				beer.getCount(), beer.getUpdtId(), beer.getId());
-		return id;
+		
 	}
 
 	@Override
@@ -54,10 +54,17 @@ public class BeerDAO extends AbstractDAO<BeerDTO> implements IBeerDAO {
 	}
 
 	@Override
-	public boolean findOneByName(String name) {
+	public BeerDTO findOneByName(String name) {
 		String sql = "SELECT * FROM beer WHERE name = ?";
 		List<BeerDTO> list = query(sql, new BeerMapper(), name);
-		return list.isEmpty() ? false : true;
+		return list.isEmpty() ? null : list.get(0);
+	}
+
+	@Override
+	public int findMinCost() {
+		String sql = "SELECT MIN(cost) cost FROM beer";
+		List<BeerDTO> list = query(sql, new BeerMapper());
+		return list.get(0).getCost();
 	}
 	
 }

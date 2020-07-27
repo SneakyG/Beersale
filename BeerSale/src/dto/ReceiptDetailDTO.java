@@ -7,6 +7,17 @@ public class ReceiptDetailDTO extends CommonDTO {
 	private int count;
 	private int cost;
 	
+	public ReceiptDetailDTO() {
+	}
+
+	public ReceiptDetailDTO(int userId, int beerId, int receiptId, int count, int cost) {
+		this.userId = userId;
+		this.beerId = beerId;
+		this.receiptId = receiptId;
+		this.count = count;
+		this.cost = cost;
+	}
+	
 	public int getUserId() {
 		return userId;
 	}

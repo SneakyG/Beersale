@@ -4,7 +4,15 @@ public class ReceiptDTO extends CommonDTO {
 	private int userId;
 	private int total;
 	private int status;
+	
+	public ReceiptDTO() {
+	}
 
+	public ReceiptDTO(int userId, int total, int status) {
+		this.userId = userId;
+		this.total = total;
+		this.status = status;
+	}
 
 	public int getTotal() {
 		return total;
