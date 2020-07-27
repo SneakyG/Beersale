@@ -1,0 +1,46 @@
+USE beer_sale;
+
+-----	Beer	-----
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Strongbow vị dâu đỏ","Strongbow Cider","Hà Lan","Việt Nam","Cider (nước ép táo lên men với sucrose), nước, si-rô, màu caramel (E150a), chất điều chỉnh độ acid (E296), khí carbonate, chất bảo quản Kali Metabisulfit (E224), hương táo tự nhiên","330ml / Lon",10,10000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Tiger","Tiger","Hà Lan","Việt Nam","","330 ml / lon",10,13000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Tiger Crystal","Tiger","	Việt Nam","	Việt Nam","Nước, hoa bia, đại mạch","8L",10,12000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Heineken","Heineken","Hà Lan","Singapore","Nước, đại mạch, chiết xuất hoa bia, hương tự nhiên. Nồng độ cồn: 0.0%","330ml/Lon",10,9000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Beck's Ice","Beck's","Đức","Việt Nam","","330ml / lon",10,14000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Budweiser","Budweiser","Mỹ","Việt Nam","Nước, mạch nha, gạo, hoa bia","330 ml / lon",10,15000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("SAGOTA không cồn","SAGOTA","Việt Nam","Việt Nam","Nước, lúa mạch, gạo, hoa bia","330ml",10,7000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Tuborg","Tuborg","Đan Mạch","Việt Nam","","330 ml / lon",10,6000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Larue Special","Larue Special","Việt Nam","","Nước, Đại mạch, Ngũ cốc, Hoa bia, Hương trái cây tổng hợp","",10,10000,16,now(),16,now());
+INSERT INTO beer(name,brand,origin_brand,origin,ingredient,capacity,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES ("Hoegaarden","Hoegaarden","Bỉ","","","500ml",10,22000,16,now(),16,now());
+
+-----	Role	-----
+INSERT INTO role(role_code,role_name) VALUES ("admin","Administer");
+INSERT INTO role(role_code,role_name) VALUES ("client","Customer");
+
+-----	User Account	-----
+INSERT INTO user_account(username,password,role_id,status,reg_date,updt_date) VALUES ("sneakyg","123bon",1,1,now(),now());
+INSERT INTO user_account(username,password,role_id,status,reg_date,updt_date) VALUES ("clienta","123bon",2,1,now(),now());
+INSERT INTO user_account(username,password,role_id,status,reg_date,updt_date) VALUES ("clientb","123bon",2,0,now(),now());
+INSERT INTO user_account(username,password,role_id,status,reg_date,updt_date) VALUES ("clientc","123bon",2,1,now(),now());
+
+-----	User	-----
+INSERT INTO user(user_account_id,name,email,phone_number,money,reg_date,updt_date) VALUES ("1","Hồ Tấn Giang","example@gmail.com","0123456789",0,now(),now());
+INSERT INTO user(user_account_id,name,email,phone_number,money,reg_date,updt_date) VALUES ("2","Client A","example@gmail.com","0123456789",0,now(),now());
+INSERT INTO user(user_account_id,name,email,phone_number,money,reg_date,updt_date) VALUES ("3","Client B","example@gmail.com","0123456789",50000,now(),now());
+INSERT INTO user(user_account_id,name,email,phone_number,money,reg_date,updt_date) VALUES ("4","Client C","example@gmail.com","0123456789",100000,now(),now());
+
+-----	Receipt		-----
+INSERT INTO receipt (user_id,status,total,reg_id,reg_date,updt_id,updt_date) VALUES (2,0,35000,2,now(),2,now());
+INSERT INTO receipt (user_id,status,total,reg_id,reg_date,updt_id,updt_date) VALUES (3,0,52000,3,now(),3,now());
+INSERT INTO receipt (user_id,status,total,reg_id,reg_date,updt_id,updt_date) VALUES (4,1,45000,4,now(),1,now());
+
+-----	ReceiptDetail	-----
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (1,2,1,1,10000,2,now(),2,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (2,2,1,1,13000,2,now(),2,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (3,2,1,1,12000,2,now(),2,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (4,3,2,1,9000,3,now(),3,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (5,3,2,2,14000,3,now(),3,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (6,3,2,1,15000,3,now(),3,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (7,4,2,1,7000,4,now(),4,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (8,4,3,2,6000,4,now(),4,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (9,4,3,1,10000,4,now(),4,NOW());
+INSERT INTO receipt_detail (beer_id,user_id,receipt_id,count,cost,reg_id,reg_date,updt_id,updt_date) VALUES (10,4,3,1,22000,4,now(),4,NOW())

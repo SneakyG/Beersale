@@ -1,0 +1,87 @@
+CREATE DATABASE beer_sale;
+
+USE beer_sale;
+
+CREATE TABLE Beer(
+	id INT (11) NOT NULL AUTO_INCREMENT,
+	name varchar(255) COLLATE UTF8_GENERAL_CI DEFAULT NULL,
+	brand varchar(255) COLLATE UTF8_GENERAL_CI DEFAULT NULL,
+	origin_brand varchar(255) COLLATE UTF8_GENERAL_CI DEFAULT NULL,
+	origin varchar(255) COLLATE UTF8_GENERAL_CI DEFAULT NULL,
+	ingredient Text DEFAULT NULL,
+	capacity varchar(255) COLLATE UTF8_GENERAL_CI DEFAULT NULL,
+	count INT DEFAULT NULL,
+	cost INT DEFAULT NULL,
+	reg_id int(11) DEFAULT NULL,
+	reg_date datetime DEFAULT NULL,
+	updt_id int(11) DEFAULT NULL,
+	updt_date datetime DEFAULT NULL,
+	del_id int(11) DEFAULT NULL,
+	del_date datetime DEFAULT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE Role(
+	id INT (11) NOT NULL AUTO_INCREMENT,
+	role_code varchar(50) NOT NULL,
+	role_name varchar(255) COLLATE UTF8_GENERAL_CI DEFAULT NULL,
+	reg_id int(11) DEFAULT NULL,
+	reg_date datetime DEFAULT NULL,
+	updt_id int(11) DEFAULT NULL,
+	updt_date datetime DEFAULT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE User_account(
+	id INT (11) NOT NULL AUTO_INCREMENT,
+	username varchar(255) DEFAULT NULL,
+	password varchar(255) DEFAULT NULL,
+	role_id INT NOT NULL,
+	status int NOT NULL,
+	reg_id int(11) DEFAULT NULL,
+	reg_date datetime DEFAULT NULL,
+	updt_id int(11) DEFAULT NULL,
+	updt_date datetime DEFAULT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE User(
+	id INT (11) NOT NULL AUTO_INCREMENT,
+	user_account_id INT NOT NULL,
+	name VARCHAR(255) COLLATE UTF8_GENERAL_CI NOT NULL,
+	email VARCHAR(255) DEFAULT NULL,
+	phone_number VARCHAR(255) DEFAULT NULL,
+	money INT(11) NOT NULL,
+	reg_id int(11) DEFAULT NULL,
+	reg_date datetime DEFAULT NULL,
+	updt_id int(11) DEFAULT NULL,
+	updt_date datetime DEFAULT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE Receipt(
+	id INT (11) NOT NULL AUTO_INCREMENT,
+	user_id INT NOT NULL,
+	total INT (11) NOT NULL,
+	status INT NOT NULL,
+	reg_id int(11) DEFAULT NULL,
+	reg_date datetime DEFAULT NULL,
+	updt_id int(11) DEFAULT NULL,
+	updt_date datetime DEFAULT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE receipt_detail(
+	id INT (11) NOT NULL AUTO_INCREMENT,
+	beer_id INT NOT NULL,
+	user_id INT NOT NULL,
+	receipt_id INT NOT NULL,
+	count INT DEFAULT NULL,
+	cost INT DEFAULT NULL,
+	reg_id int(11) DEFAULT NULL,
+	reg_date datetime DEFAULT NULL,
+	updt_id int(11) DEFAULT NULL,
+	updt_date datetime DEFAULT NULL,
+	PRIMARY KEY(id)
+);
+
