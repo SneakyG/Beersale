@@ -1,3 +1,5 @@
 =========================Receipt=========================
-1. Heineken  x6	:54000
-Total money	:	54000
+User name:	client f
+Receipt id:	19
+1. Tiger  x2	:	26000
+Total money	:	26000
