@@ -154,4 +154,35 @@ public class AbstractDAO<T> implements IAbstractDAO<T> {
 		}
 	}
 
+	@Override
+	public List<String> queryString(String sql, Object... parameters) {
+		List<String> list = new ArrayList<>();
+		try {
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			setParameters(statement, parameters);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				list.add(resultSet.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
 }

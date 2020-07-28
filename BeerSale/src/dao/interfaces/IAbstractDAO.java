@@ -12,4 +12,6 @@ public interface IAbstractDAO<T> {
 	int update(String sql, Object... parameters);
 	
 	int calculate(String sql, Object... parameters);
+	
+	List<String> queryString(String sql, Object... parameters);
 }
