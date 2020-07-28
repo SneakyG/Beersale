@@ -11,7 +11,7 @@ public interface IReceiptDetailDAO {
 	
 	ReceiptDetailDTO findByReceiptIdAndBeerId(int receiptId, int beerId);
 	
-	ReceiptDetailDTO totalByReceiptId(int receiptId);
+	int totalByReceiptId(int receiptId);
 	
 	void insert(ReceiptDetailDTO receiptDetail);
 	

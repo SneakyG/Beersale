@@ -16,6 +16,8 @@ public interface IBeerDAO {
 	
 	List<BeerDTO> findAllByBrand(String brand);
 	
+	List<BeerDTO> findAllByName(String name);
+	
 	void insert(BeerDTO beer);
 	
 	int update(BeerDTO beer);

@@ -26,6 +26,9 @@ public class Main {
 	private static Scanner sc = new Scanner(System.in);
 	private static boolean checkExit = false;
 	private static boolean checkLogout = false;
+	private static boolean checkSelectOther = false;
+	private static boolean checkBuyMore = false;
+	
 	private static List<ReceiptDetailDTO> lstReceiptDetail = new ArrayList<>();
 	private static ReceiptDTO receipt;
 
@@ -684,22 +687,42 @@ public class Main {
 
 	// ===================== Client ======================
 	private static void clientInterface() {
-		System.out.println("================== Client ================");
-		checkMoneyMin();
-		
 		while(true) {
-			showMenu();
-			selectBeer();
+			System.out.println("================== Client ================");
+			checkMoneyMin();
+			if(checkLogout || checkExit)return;
+			while(true) {
+				if(checkSelectOther) {
+					checkSelectOther = false;
+					System.out.println("Do you want to show menu ? (y or n)");
+					String answer = sc.next();
+					if(answer.equals("y")) {
+						showMenu();
+					}else if(answer.equals("n")) {
+						
+					}else {
+						System.out.println(SystemConstant.WRONG_ANSWER);
+					}
+				}else {
+					showMenu();
+				}
+				selectBeer();
+//				
+				
+			}
 		}
 	}
 
 	private static void selectBeer() {
 		while(true) {
+			if(checkSelectOther) return;
+			sc.nextLine();
 			System.out.print("Input name: ");
 			String name = sc.nextLine();
-			BeerDTO selectBeer = beerDAO.findOneByName(name);
+			BeerDTO selectBeer = searchBeers(name);
 			if(selectBeer == null) {
 				System.out.println("Your select is not exist!!");
+//				
 				continue;
 			}
 			if(selectBeer.getCount() == 0) {
@@ -715,43 +738,64 @@ public class Main {
 						break;
 					}else if(answer.equals("n")) {
 						addMoneyAndBuy(selectBeer);
+						break;
 					}else {
 						System.out.println(SystemConstant.WRONG_ANSWER);
 					}
 				}
+			}else {
+				addMoneyAndBuy(selectBeer);
+				break;
 			}
 		}
 	}
 
+	private static BeerDTO searchBeers(String name) {
+		BeerDTO beer = new BeerDTO();
+		List<BeerDTO> lst = beerDAO.findAllByName(name);
+		if(lst.isEmpty()) return null;
+		System.out.println("Which beer do you want to select: ");
+		for(int i = 0 ; i < lst.size() ; i++) {
+			System.out.println(i+1 + " " + lst.get(i).toString());
+		}
+		while(true) {
+//			Chưa có chỗ out nếu ko mún chọn
+			System.out.println("Select number: ");
+			int answer = sc.nextInt();
+			if(answer < 1 || answer > lst.size()+1) {
+				System.out.println(SystemConstant.WRONG_ANSWER);
+			}else {
+				beer = lst.get(answer-1);
+				break;
+			}
+		}
+		return beer;
+	}
+
 	private static void addMoneyAndBuy(BeerDTO selectBeer) {
 		int countBuy = 1;
-		while(userAccountDTO.getMoney() < selectBeer.getCost()*countBuy) {
-			System.out.println("Your money not enough money!!");
-			System.out.println("Please add more money");
-			System.out.print("You want to add: ");
-			int moneyAdd = sc.nextInt();
-			if(moneyAdd < SystemConstant.MIN_ADD_MONEY) {
-				System.out.println("Your extra money not equal min (20000) ");
-				continue;
-			}
-			userAccountDTO.setMoney(userAccountDTO.getMoney()+moneyAdd);
-			int result = userAccountDAO.update(userAccountDTO);
-			checkSuccess(result, "Add money successfully", "Add money fail");
-			if(result != 0) {
-				userAccountDTO = userAccountDAO.findOneById(userAccountDTO.getId());
-				System.out.println("Current your money : "+ userAccountDTO.getMoney());
-			}
-			if(userAccountDTO.getMoney() < selectBeer.getCost()*countBuy) continue;
-			while(true) {				
-				System.out.print("How many you want to buy: ");
-				int count = sc.nextInt();
-				if(count > selectBeer.getCount()) {
-					System.out.println(selectBeer.getName() + "just have " + selectBeer.getCount());
+		
+		checkMoneyAndBeerCost(selectBeer, countBuy);
+		
+		while(true) {				
+			System.out.print("How many you want to buy: ");
+			int count = sc.nextInt();
+			if(count > selectBeer.getCount()) {
+				System.out.println(selectBeer.getName() + "just have " + selectBeer.getCount());
+				System.out.println("Do you want to buy other beer? (y or n)");
+				String answer = sc.next();
+				if(answer.equals("y")) {
+					checkSelectOther = true;
+					return;
+				}else if(answer.equals("n")) {
+					
 				}else {
-					countBuy = count;
-					System.out.println("Total : " + selectBeer.getCost()*countBuy);
-					break;
+					System.out.println(SystemConstant.WRONG_ANSWER);
 				}
+			}else {
+				countBuy = count;
+				checkMoneyAndBeerCost(selectBeer, countBuy);
+				break;
 			}
 		}
 		
@@ -778,13 +822,14 @@ public class Main {
 			receiptDetail = new ReceiptDetailDTO(userDTO.getId(), selectBeer.getId(), receipt.getId(), countBuy, countBuy * selectBeer.getCost());
 			receiptDetailDAO.insert(receiptDetail);
 		}
-		receipt.setTotal(receiptDetailDAO.totalByReceiptId(receipt.getId()).getCost());
+		receipt.setTotal(receiptDetailDAO.totalByReceiptId(receipt.getId()));
 		receiptDAO.update(receipt);
 	}
 
 	private static void checkMoneyMin() {
 		while(true) {
 			if(userAccountDTO.getMoney() < MIN_COST) {
+				System.out.println("Current your money: " + userAccountDTO.getMoney());
 				System.out.println("Your money not enough! Do you want to add your money (min = 20000) ? (y or n)");
 				String answer = sc.next();
 				if(answer.equals("y")) {
@@ -792,6 +837,7 @@ public class Main {
 					int moneyAdd = sc.nextInt();
 					if(moneyAdd < SystemConstant.MIN_ADD_MONEY) {
 						System.out.println("Your extra money not equal min (20000) ");
+//						
 					}else {
 						userAccountDTO.setMoney(userAccountDTO.getMoney() + moneyAdd);
 						int result = userAccountDAO.update(userAccountDTO);
@@ -820,6 +866,30 @@ public class Main {
 					System.out.println(SystemConstant.WRONG_ANSWER);
 				}
 			}
+			return;
+		}
+	}
+	
+	private static void checkMoneyAndBeerCost(BeerDTO selectBeer,int countBuy) {
+		while(userAccountDTO.getMoney() < selectBeer.getCost()*countBuy) {
+			System.out.println("Total : " + selectBeer.getCost()*countBuy);
+			System.out.println("Your current money: " + userAccountDTO.getMoney());
+			System.out.println("Your money not enough money!!");
+			System.out.println("Please add more money");
+			System.out.print("You want to add: ");
+			int moneyAdd = sc.nextInt();
+			if(moneyAdd < SystemConstant.MIN_ADD_MONEY) {
+				System.out.println("Your extra money not equal min (20000) ");
+				continue;
+			}
+			userAccountDTO.setMoney(userAccountDTO.getMoney()+moneyAdd);
+			int result = userAccountDAO.update(userAccountDTO);
+			checkSuccess(result, "Add money successfully", "Add money fail");
+			if(result != 0) {
+				userAccountDTO = userAccountDAO.findOneById(userAccountDTO.getId());
+				System.out.println("Current your money : "+ userAccountDTO.getMoney());
+			}
+			if(userAccountDTO.getMoney() < selectBeer.getCost()*countBuy) continue;
 		}
 	}
 }

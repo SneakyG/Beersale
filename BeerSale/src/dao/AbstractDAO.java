@@ -107,6 +107,37 @@ public class AbstractDAO<T> implements IAbstractDAO<T> {
 		}
 		return id;
 	}
+	
+	@Override
+	public int calculate(String sql, Object... parameters) {
+		try {
+			int min = 0;
+			connection = getConnection();
+			statement = connection.prepareStatement(sql);
+			setParameters(statement, parameters);
+			resultSet = statement.executeQuery();
+			while(resultSet.next()) {
+				min = resultSet.getInt(1);
+			}
+			return min;
+		} catch (SQLException e) {
+			return 0;
+		}finally {
+			try {
+				if (connection != null) {
+					connection.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+				if (resultSet != null) {
+					resultSet.close();
+				}
+			} catch (SQLException e) {
+				return 0;
+			}
+		}
+	}
 
 	private void setParameters(PreparedStatement statement, Object[] parameters) {
 		try {

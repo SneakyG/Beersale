@@ -24,8 +24,8 @@ public class ReceiptDAO extends AbstractDAO<ReceiptDTO> implements IReceiptDAO {
 
 	@Override
 	public int update(ReceiptDTO receipt) {
-		String sql = "UPDATE receipt SET status = ?, updt_id = ?, updt_date = now() WHERE id = ?";
-		int result = update(sql, receipt.getStatus(),receipt.getUpdtId(),receipt.getId());
+		String sql = "UPDATE receipt SET status = ?, total = ?, updt_id = ?, updt_date = now() WHERE id = ?";
+		int result = update(sql, receipt.getStatus(), receipt.getTotal(),receipt.getUpdtId(),receipt.getId());
 		return result;
 	}
 

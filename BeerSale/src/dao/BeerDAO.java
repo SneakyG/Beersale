@@ -63,8 +63,14 @@ public class BeerDAO extends AbstractDAO<BeerDTO> implements IBeerDAO {
 	@Override
 	public int findMinCost() {
 		String sql = "SELECT MIN(cost) cost FROM beer";
+		return calculate(sql);
+	}
+
+	@Override
+	public List<BeerDTO> findAllByName(String name) {
+		String sql = "SELECT * FROM beer WHERE name like '%"+ name + "%'";
 		List<BeerDTO> list = query(sql, new BeerMapper());
-		return list.get(0).getCost();
+		return list;
 	}
 	
 }

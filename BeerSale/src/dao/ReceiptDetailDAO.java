@@ -43,10 +43,9 @@ public class ReceiptDetailDAO extends AbstractDAO<ReceiptDetailDTO> implements I
 	}
 
 	@Override
-	public ReceiptDetailDTO totalByReceiptId(int receiptId) {
-		String sql = "SELECT SUM(cost) cost FROM receipt_detail WHERE id = ?";
-		List<ReceiptDetailDTO> list = query(sql, new ReceiptDetailMapper(), receiptId);
-		return list.isEmpty() ? null : list.get(0);
+	public int totalByReceiptId(int receiptId) {
+		String sql = "SELECT SUM(cost) FROM receipt_detail WHERE receipt_id = ?";
+		return calculate(sql, receiptId);
 	}
 
 }

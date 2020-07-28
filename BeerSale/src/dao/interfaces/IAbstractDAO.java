@@ -10,4 +10,6 @@ public interface IAbstractDAO<T> {
 	void insert(String sql, Object... parameters);
 
 	int update(String sql, Object... parameters);
+	
+	int calculate(String sql, Object... parameters);
 }
