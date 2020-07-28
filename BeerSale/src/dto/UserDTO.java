@@ -9,13 +9,11 @@ public class UserDTO extends CommonDTO {
 	public UserDTO() {
 	}
 
-	public UserDTO(int userAccountId, String name, String email, int phoneNumber, int regId, int updtId) {
+	public UserDTO(int userAccountId, String name, String email, int phoneNumber) {
 		this.userAccountId = userAccountId;
 		this.name = name;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
-		this.regId = regId;
-		this.updtId = updtId;
 	}
 
 	public int getUserAccountId() {
@@ -50,5 +48,9 @@ public class UserDTO extends CommonDTO {
 		this.phoneNumber = phoneNumber;
 	}
 
-	
+	@Override
+	public String toString() {
+		String s = "Name: " + name + "\nEmail: " + email + "\nPhone number: " + phoneNumber + "\nRegister date: " + regDate;
+		return s;
+	}
 }

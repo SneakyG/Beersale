@@ -15,6 +15,7 @@ public class UserMapper implements IRowMapper<UserDTO> {
 			dto.setName(resultSet.getString("name"));
 			dto.setEmail(resultSet.getString("email"));
 			dto.setPhoneNumber(resultSet.getInt("phone_number"));
+			dto.setRegDate(resultSet.getString("reg_date"));
 			return dto;
 		} catch (SQLException e) {
 			e.printStackTrace();
