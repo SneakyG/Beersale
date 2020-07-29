@@ -8,6 +8,4 @@ public class SystemConstant {
 	public static final String SEARCH_RECEIPT = "searchReceipt";
 	public static final int MIN_ADD_MONEY = 20000;
 	
-	
-	
 }
