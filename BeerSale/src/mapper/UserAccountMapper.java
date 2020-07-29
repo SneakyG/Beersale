@@ -19,6 +19,11 @@ public class UserAccountMapper implements IRowMapper<UserAccountDTO> {
 			dto.setRoleId(resultSet.getInt("role_id"));
 			dto.setRegDate(resultSet.getString("reg_date"));
 			dto.setUpdtDate(resultSet.getString("updt_date"));
+			try {
+				dto.setRegDate(resultSet.getString("reg_id"));
+				dto.setUpdtDate(resultSet.getString("updt_id"));
+			} catch (Exception e) {
+			}
 			return dto;
 		} catch (SQLException e) {
 			e.printStackTrace();

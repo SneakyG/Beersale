@@ -17,9 +17,8 @@ import dto.ReceiptDetailDTO;
 import dto.UserAccountDTO;
 import dto.UserDTO;
 
-public class Main {
-
-	private static Scanner sc = new Scanner(System.in);
+public class RunMain {
+	private Scanner sc = new Scanner(System.in);
 	public static boolean checkExit = false;
 	public static boolean checkLogout = false;
 
@@ -28,13 +27,13 @@ public class Main {
 	public static UserAccountDTO userAccountDTO;
 	public static UserDTO userDTO;
 
-	private static IUserDAO userDAO = new UserDAO();
-	private static IUserAccountDAO userAccountDAO = new UserAccountDAO();
-	private static IBeerDAO beerDAO = new BeerDAO();
+	private IUserDAO userDAO = new UserDAO();
+	private IUserAccountDAO userAccountDAO = new UserAccountDAO();
+	private IBeerDAO beerDAO = new BeerDAO();
 
-	public static final int MIN_COST = beerDAO.findMinCost();
+	public final int MIN_COST = beerDAO.findMinCost();
 
-	public static void main(String[] args) {
+	public void main(String[] args) {
 		System.out.println("================== Beer Store ================");
 		while (true) {
 			System.out.println("Do you have an account( y or n )?");
@@ -77,7 +76,7 @@ public class Main {
 		System.out.println("Thank you !");
 	}
 
-	private static void register() {
+	private void register() {
 		while (true) {
 			try {
 				System.out.println("================== Register ================");
@@ -113,7 +112,7 @@ public class Main {
 
 	}
 
-	private static void logIn() {
+	private void logIn() {
 		userAccountDTO = new UserAccountDTO();
 		userDTO = new UserDTO();
 		boolean checkNoAccount = true;
@@ -158,7 +157,7 @@ public class Main {
 			}
 		}
 	}
-	public static void checkSuccess(int result, String announceSuccess, String announceFail) {
+	public void checkSuccess(int result, String announceSuccess, String announceFail) {
 		if (result != 0) {
 			System.out.println(announceSuccess);
 		} else {
@@ -166,7 +165,7 @@ public class Main {
 		}
 	}
 	
-	public static int handleInputNumberException(int number,String text) {
+	public int handleInputNumberException(int number,String text) {
 		boolean checkInputNumber = false;
 		
 		while (!checkInputNumber) {
@@ -182,7 +181,7 @@ public class Main {
 		return number;
 	}
 	
-	public static String handleInputStringException(String inputString,String text) {
+	public String handleInputStringException(String inputString,String text) {
 		boolean checkInputNumber = false;
 		
 		while (!checkInputNumber) {
