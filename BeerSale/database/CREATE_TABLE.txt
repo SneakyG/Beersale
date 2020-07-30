@@ -16,8 +16,6 @@ CREATE TABLE Beer(
 	reg_date datetime DEFAULT NULL,
 	updt_id int(11) DEFAULT NULL,
 	updt_date datetime DEFAULT NULL,
-	del_id int(11) DEFAULT NULL,
-	del_date datetime DEFAULT NULL,
 	PRIMARY KEY(id)
 );
 

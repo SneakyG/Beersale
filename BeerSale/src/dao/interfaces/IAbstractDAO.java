@@ -3,7 +3,7 @@ package dao.interfaces;
 import java.util.List;
 
 import mapper.IRowMapper;
-
+// maybe you made framework
 public interface IAbstractDAO<T> {
 	List<T> query(String sql, IRowMapper<T> rowMapper, Object... parameters);
 
