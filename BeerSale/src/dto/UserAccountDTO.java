@@ -46,10 +46,4 @@ public class UserAccountDTO extends CommonDTO {
 	public void setMoney(int money) {
 		this.money = money;
 	}
-
-	@Override
-	public String toString() {
-		String s = userName + "--" + password + "--" + status + "--" + money + "--" + regId + "--" + regDate + "--" + updtId + "--" + updtDate;
-		return s;
-	}
 }

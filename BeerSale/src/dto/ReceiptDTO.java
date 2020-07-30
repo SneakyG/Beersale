@@ -37,11 +37,5 @@ public class ReceiptDTO extends CommonDTO {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	@Override
-	public String toString() {
-		String s =  userId + "--" + total + "--" + status + "--" + regDate + "--" + updtId + "--" + updtDate;
-		return s;
-	}
 
 }

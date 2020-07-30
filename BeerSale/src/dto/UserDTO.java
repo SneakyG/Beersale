@@ -47,10 +47,4 @@ public class UserDTO extends CommonDTO {
 	public void setPhoneNumber(int phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-
-	@Override
-	public String toString() {
-		String s = "Name: " + name + "\nEmail: " + email + "\nPhone number: " + phoneNumber + "\nRegister date: " + regDate;
-		return s;
-	}
 }

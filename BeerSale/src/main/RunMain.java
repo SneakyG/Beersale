@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import common.SystemConstant;
 import dao.BeerDAO;
@@ -19,6 +18,7 @@ import dto.UserDTO;
 
 public class RunMain {
 	private Scanner sc = new Scanner(System.in);
+	
 	public static boolean checkExit = false;
 	public static boolean checkLogout = false;
 
@@ -32,8 +32,10 @@ public class RunMain {
 	private IBeerDAO beerDAO = new BeerDAO();
 
 	public final int MIN_COST = beerDAO.findMinCost();
+	
+	
 
-	public void main(String[] args) {
+	public void run() {
 		System.out.println("================== Beer Store ================");
 		while (true) {
 			System.out.println("Do you have an account( y or n )?");
@@ -80,9 +82,8 @@ public class RunMain {
 		while (true) {
 			try {
 				System.out.println("================== Register ================");
-//				System.out.print("Username : ");
-				String userName = "";
-				handleInputStringException(userName, "Username : ");
+				System.out.print("Username : ");
+				String userName = sc.nextLine();
 				if (userAccountDAO.findOneByUserName(userName) != null) {
 					throw new Exception("Username is exist!");
 				}
@@ -173,30 +174,35 @@ public class RunMain {
 				Scanner scInt = new Scanner(System.in);
 				System.out.print(text);
 				number = scInt.nextInt();
+				if(number < 0) {
+					throw new Exception("Your number can't be negative");
+				}
 				checkInputNumber = true;
 			} catch (InputMismatchException e) {
 				System.out.println("You have to input number");
+			}catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
 		}
 		return number;
 	}
 	
-	public String handleInputStringException(String inputString,String text) {
-		boolean checkInputNumber = false;
-		
-		while (!checkInputNumber) {
-			try {
-				Scanner scString = new Scanner(System.in);
-				System.out.print(text);
-				inputString = scString.nextLine();
-				if(!Pattern.matches("^[a-zA-Z0-9]", inputString)) {
-					throw new InputMismatchException("Your answer contain special symbol");
-				}
-				checkInputNumber = true;
-			} catch (InputMismatchException e) {
-				System.out.println(e.getMessage());
-			}
-		}
-		return inputString;
-	}
+//	public String handleInputStringException(String inputString,String text) {
+//		boolean checkInputNumber = false;
+//		
+//		while (!checkInputNumber) {
+//			try {
+//				Scanner scString = new Scanner(System.in);
+//				System.out.print(text);
+//				inputString = scString.nextLine();
+//				if(!Pattern.matches("^[a-zA-Z0-9]", inputString)) {
+//					throw new InputMismatchException("Your answer contain special symbol");
+//				}
+//				checkInputNumber = true;
+//			} catch (InputMismatchException e) {
+//				System.out.println(e.getMessage());
+//			}
+//		}
+//		return inputString;
+//	}
 }

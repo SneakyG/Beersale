@@ -116,11 +116,4 @@ public class BeerDTO extends CommonDTO {
 	public void setOrigin(String origin) {
 		this.origin = origin;
 	}
-
-	@Override
-	public String toString() {
-		String s = name + "--" + brand + "--" + cost + "--" + count + "--" + regId ;
-//				+ "-" + regDate + "-" + updtId + "-" + updtDate;
-		return s;
-	}
 }

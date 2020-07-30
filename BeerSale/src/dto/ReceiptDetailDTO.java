@@ -48,10 +48,4 @@ public class ReceiptDetailDTO extends CommonDTO {
 	public void setCost(int cost) {
 		this.cost = cost;
 	}
-	
-	@Override
-	public String toString() {
-		String s = userId + "--" + beerId + "--" + receiptId + "--" + count + "--" + cost + "--" + regDate + "--" + updtId + "--" + updtDate;
-		return s;
-	}
 }

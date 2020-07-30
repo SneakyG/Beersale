@@ -128,7 +128,21 @@ public class Client {
 			moneyCharge = runMain.handleInputNumberException(moneyCharge,"Input money charge: ");
 			if (moneyCharge < SystemConstant.MIN_ADD_MONEY) {
 				System.out.println("Your extra money not equal min (20000)");
-				continue;
+				while(true) {
+					try {					
+						System.out.println("Do you want to continue charging? (y or n)");
+						String answer = sc.nextLine();
+						if(answer.equals("y")) {
+							break;
+						}else if(answer.equals("n")) {
+							return;
+						}else {
+							throw new Exception(SystemConstant.WRONG_ANSWER);
+						}
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				}
 			} else {
 				RunMain.userAccountDTO.setMoney(RunMain.userAccountDTO.getMoney() + moneyCharge);
 				int result = userAccountDAO.update(RunMain.userAccountDTO);
@@ -182,6 +196,10 @@ public class Client {
 				RunMain.lstReceiptDetail = receiptDetailDAO.findByReceiptId(receipt.getId());
 				exportReceipt();
 				RunMain.checkExit = true;
+				return;
+			}
+			
+			if(!checkBuyMore) {
 				return;
 			}
 		}
@@ -307,6 +325,23 @@ public class Client {
 				checkMoneyAndBeerCost(selectBeer, countBuy);
 				if (RunMain.userAccountDTO.getMoney() < selectBeer.getCost() * countBuy)
 					return;
+				System.out.println("Current your money: " + RunMain.userAccountDTO.getMoney());
+				System.out.println(selectBeer.getName()+" x" + countBuy + ": " + selectBeer.getCost() * countBuy);
+				while(true) {
+					try {						
+						System.out.println("Are you comfirm? (y or n)");
+						String answer = sc.nextLine();
+						if(answer.equals("y")) {
+							break;
+						}else if(answer.equals("n")) {
+							return;
+						}else {
+							throw new Exception(SystemConstant.WRONG_ANSWER);
+						}
+					} catch (Exception e) {
+						System.out.println(e.getMessage());
+					}
+				}
 				RunMain.userAccountDTO.setMoney(RunMain.userAccountDTO.getMoney() - selectBeer.getCost() * countBuy);
 				int result = userAccountDAO.update(RunMain.userAccountDTO);
 				runMain.checkSuccess(result, "Buy successfully", "Buy unsuccessfully");
