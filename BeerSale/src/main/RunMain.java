@@ -65,10 +65,10 @@ public class RunMain {
 			}
 			if (checkLogout) {
 				checkLogout = false;
-				continue;
 			}
-			if (checkExit)
+			if (checkExit){ 
 				break;
+			}
 		}
 		if (!lstReceiptDetail.isEmpty()) {
 			System.out.println("Your order exported in Receipt.txt file");

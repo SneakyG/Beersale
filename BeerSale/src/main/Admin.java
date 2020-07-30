@@ -189,6 +189,7 @@ public class Admin {
 		} else {
 			if (lockAccount.getStatus() == 1) {
 				lockAccount.setStatus(0);
+				lockAccount.setUpdtId(RunMain.userDTO.getId());
 				userAccountDAO.update(lockAccount);
 				System.out.println("Lock account successfully");
 			} else {
@@ -207,6 +208,7 @@ public class Admin {
 		} else {
 			if (unlockAccount.getStatus() == 0) {
 				unlockAccount.setStatus(1);
+				unlockAccount.setUpdtId(RunMain.userDTO.getId());
 				userAccountDAO.update(unlockAccount);
 				System.out.println("Unlock account successfully");
 			} else {

@@ -1,11 +1,14 @@
 package dto;
 
+// what different VO and DTO ? Data transfer object i cant understand like passing parameter
+// VO(Value Object) == Entity == Model 
 public abstract class CommonDTO {
-	protected int id;
-	protected int regId;
-	protected String regDate;
-	protected int updtId;
-	protected String updtDate;
+	// child class want use parent class field
+	private int id; 
+	private int regId;
+	private String regDate;
+	private int updtId;
+	private String updtDate;
 
 	public String getRegDate() {
 		return regDate;

@@ -12,7 +12,6 @@ import dao.interfaces.IAbstractDAO;
 import mapper.IRowMapper;
 
 public class AbstractDAO<T> implements IAbstractDAO<T> {
-
 	private Connection connection = null;
 	private PreparedStatement statement = null;
 	private ResultSet resultSet = null;

@@ -16,7 +16,7 @@ public class BeerDTO extends CommonDTO {
 	}
 	
 	public BeerDTO(int id, String name, String brand, String originBrand, String origin, String ingredient, String capacity, int count, int cost) {
-		this.id = id;
+		this.setId(id);;
 		this.name = name;
 		this.brand = brand;
 		this.originBrand = originBrand;
