@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import common.SystemConstant;
-import dao.BeerDAO;
 import dao.UserAccountDAO;
 import dao.UserDAO;
-import dao.interfaces.IBeerDAO;
 import dao.interfaces.IUserAccountDAO;
 import dao.interfaces.IUserDAO;
 import dto.ReceiptDetailDTO;
@@ -18,22 +16,22 @@ import dto.UserDTO;
 
 public class RunMain {
 	private Scanner sc = new Scanner(System.in);
-	
+
 	public static boolean checkExit = false;
 	public static boolean checkLogout = false;
 
 	public static List<ReceiptDetailDTO> lstReceiptDetail = new ArrayList<>();
-	
+
 	public static UserAccountDTO userAccountDTO;
 	public static UserDTO userDTO;
 
-	private IUserDAO userDAO = new UserDAO();
-	private IUserAccountDAO userAccountDAO = new UserAccountDAO();
-	private IBeerDAO beerDAO = new BeerDAO();
+	private IUserDAO userDAO;
+	private IUserAccountDAO userAccountDAO;
 
-	public final int MIN_COST = beerDAO.findMinCost();
-	
-	
+	public RunMain() {
+		userDAO = new UserDAO();
+		userAccountDAO = new UserAccountDAO();
+	}
 
 	public void run() {
 		System.out.println("================== Beer Store ================");
@@ -72,7 +70,7 @@ public class RunMain {
 			if (checkExit)
 				break;
 		}
-		if(!lstReceiptDetail.isEmpty()) {
+		if (!lstReceiptDetail.isEmpty()) {
 			System.out.println("Your order exported in Receipt.txt file");
 		}
 		System.out.println("Thank you !");
@@ -97,13 +95,13 @@ public class RunMain {
 				System.out.print("Email : ");
 				String email = sc.nextLine();
 				int phoneNumber = 0;
-				phoneNumber = handleInputNumberException(phoneNumber,"Phone number: ");
+				phoneNumber = handleInputNumberException(phoneNumber, "Phone number: ");
 				userAccountDAO.insert(accountDTO);
 				accountDTO = userAccountDAO.findOneByUserNameAndPassword(userName, password);
 				UserDTO userDTO = new UserDTO(accountDTO.getId(), name, email, phoneNumber);
 				userDAO.insert(userDTO);
 				userDTO = userDAO.findOneByUserAccountId(accountDTO.getId());
-				
+
 				System.out.println("Register successfully");
 				break;
 			} catch (Exception e) {
@@ -158,6 +156,7 @@ public class RunMain {
 			}
 		}
 	}
+
 	public void checkSuccess(int result, String announceSuccess, String announceFail) {
 		if (result != 0) {
 			System.out.println(announceSuccess);
@@ -165,28 +164,28 @@ public class RunMain {
 			System.out.println(announceFail);
 		}
 	}
-	
-	public int handleInputNumberException(int number,String text) {
+
+	public int handleInputNumberException(int number, String text) {
 		boolean checkInputNumber = false;
-		
+
 		while (!checkInputNumber) {
 			try {
 				Scanner scInt = new Scanner(System.in);
 				System.out.print(text);
 				number = scInt.nextInt();
-				if(number < 0) {
+				if (number < 0) {
 					throw new Exception("Your number can't be negative");
 				}
 				checkInputNumber = true;
 			} catch (InputMismatchException e) {
 				System.out.println("You have to input number");
-			}catch (Exception e) {
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
 		}
 		return number;
 	}
-	
+
 //	public String handleInputStringException(String inputString,String text) {
 //		boolean checkInputNumber = false;
 //		

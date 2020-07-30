@@ -24,27 +24,28 @@ import dto.ReceiptDetailDTO;
 public class Client {
 
 	private Scanner sc = new Scanner(System.in);
-	
+
 	private boolean checkSelectOther = false;
 	private boolean checkBuyMore = false;
-	
+
 	private ReceiptDTO receipt;
-	
+
+	private IBeerDAO beerDAO = new BeerDAO();
 	private IUserAccountDAO userAccountDAO;
-	private IBeerDAO beerDAO;
 	private IReceiptDAO receiptDAO;
 	private IReceiptDetailDAO receiptDetailDAO;
 	private IUserDAO userDAO;
 	private RunMain runMain;
-	
+
 	public Client() {
 		userAccountDAO = new UserAccountDAO();
-		beerDAO = new BeerDAO();
 		receiptDAO = new ReceiptDAO();
 		receiptDetailDAO = new ReceiptDetailDAO();
 		userDAO = new UserDAO();
 		runMain = new RunMain();
 	}
+
+	public final int MIN_COST = beerDAO.findMinCost();
 
 	public void clientInterface() {
 		while (true) {
@@ -56,7 +57,7 @@ public class Client {
 				System.out.println("3. Log out");
 				System.out.println("4. Exit");
 				int answer = 0;
-				answer = runMain.handleInputNumberException(answer,SystemConstant.ANSWER);
+				answer = runMain.handleInputNumberException(answer, SystemConstant.ANSWER);
 				switch (answer) {
 				case 1:
 					profile();
@@ -94,7 +95,7 @@ public class Client {
 				System.out.println("4. Back client");
 				System.out.println("5. Exit");
 				int answer = 0;
-				answer = runMain.handleInputNumberException(answer,SystemConstant.ANSWER);
+				answer = runMain.handleInputNumberException(answer, SystemConstant.ANSWER);
 				switch (answer) {
 				case 1:
 					showProfile();
@@ -125,24 +126,10 @@ public class Client {
 	private void chargeMoney() {
 		while (true) {
 			int moneyCharge = 0;
-			moneyCharge = runMain.handleInputNumberException(moneyCharge,"Input money charge: ");
+			moneyCharge = runMain.handleInputNumberException(moneyCharge, "Input money charge: ");
 			if (moneyCharge < SystemConstant.MIN_ADD_MONEY) {
 				System.out.println("Your extra money not equal min (20000)");
-				while(true) {
-					try {					
-						System.out.println("Do you want to continue charging? (y or n)");
-						String answer = sc.nextLine();
-						if(answer.equals("y")) {
-							break;
-						}else if(answer.equals("n")) {
-							return;
-						}else {
-							throw new Exception(SystemConstant.WRONG_ANSWER);
-						}
-					} catch (Exception e) {
-						System.out.println(e.getMessage());
-					}
-				}
+				checkContinue();
 			} else {
 				RunMain.userAccountDTO.setMoney(RunMain.userAccountDTO.getMoney() + moneyCharge);
 				int result = userAccountDAO.update(RunMain.userAccountDTO);
@@ -164,7 +151,8 @@ public class Client {
 		System.out.println("Email: " + RunMain.userDTO.getEmail() + " -> ");
 		String email = sc.nextLine();
 		int phoneNumber = 0;
-		phoneNumber = runMain.handleInputNumberException(phoneNumber,"Phone number: " + RunMain.userDTO.getPhoneNumber() + " -> ");
+		phoneNumber = runMain.handleInputNumberException(phoneNumber,
+				"Phone number: " + RunMain.userDTO.getPhoneNumber() + " -> ");
 		RunMain.userDTO.setName(name);
 		RunMain.userDTO.setEmail(email);
 		RunMain.userDTO.setPhoneNumber(phoneNumber);
@@ -191,15 +179,15 @@ public class Client {
 			}
 
 			selectBeer();
-//			
+
 			if (!checkBuyMore && receipt != null) {
 				RunMain.lstReceiptDetail = receiptDetailDAO.findByReceiptId(receipt.getId());
 				exportReceipt();
 				RunMain.checkExit = true;
 				return;
 			}
-			
-			if(!checkBuyMore) {
+
+			if (!checkBuyMore) {
 				return;
 			}
 		}
@@ -209,12 +197,14 @@ public class Client {
 		System.out.println("==================Menu===================");
 		List<BeerDTO> lstBeer = new ArrayList<>();
 		lstBeer = beerDAO.findAll();
-		System.out.printf("%-5s %-25s %-25s %-25s %-25s %-25s \n","","Name","Origin","Capacity","Count","Cost");
+		System.out.printf("%-5s %-25s %-25s %-25s %-25s %-25s \n", "", "Name", "Origin", "Capacity", "Count", "Cost");
 		for (int i = 0; i < lstBeer.size(); i++) {
-			System.out.printf("%-5s %-25s %-25s %-25s %-25s %-25s \n",i+1,lstBeer.get(i).getName(),lstBeer.get(i).getOrigin(),lstBeer.get(i).getCapacity(),lstBeer.get(i).getCount(),lstBeer.get(i).getCost());
+			System.out.printf("%-5s %-25s %-25s %-25s %-25s %-25s \n", i + 1, lstBeer.get(i).getName(),
+					lstBeer.get(i).getOrigin(), lstBeer.get(i).getCapacity(), lstBeer.get(i).getCount(),
+					lstBeer.get(i).getCost());
 		}
 	}
-	
+
 	private void selectBeer() {
 		while (true) {
 			if (checkSelectOther)
@@ -224,8 +214,7 @@ public class Client {
 			BeerDTO selectBeer = searchBeers(name);
 			if (selectBeer == null) {
 				System.out.println("Your select is not exist!!");
-//				
-				continue;
+				checkContinue();
 			}
 			if (selectBeer.getCount() == 0) {
 				System.out.println("This beer is sold out! Please select other one\n");
@@ -265,13 +254,15 @@ public class Client {
 		if (lstBeer.isEmpty())
 			return null;
 		System.out.println("Which beer do you want to select: ");
-		System.out.printf("%-5s %-25s %-25s %-25s %-25s %-25s \n","","Name","Origin","Capacity","Count","Cost");
+		System.out.printf("%-5s %-25s %-25s %-25s %-25s %-25s \n", "", "Name", "Origin", "Capacity", "Count", "Cost");
 		for (int i = 0; i < lstBeer.size(); i++) {
-			System.out.printf("%-5s %-25s %-25s %-25s %-25s %-25s \n",i+1,lstBeer.get(i).getName(),lstBeer.get(i).getOrigin(),lstBeer.get(i).getCapacity(),lstBeer.get(i).getCount(),lstBeer.get(i).getCost());
+			System.out.printf("%-5s %-25s %-25s %-25s %-25s %-25s \n", i + 1, lstBeer.get(i).getName(),
+					lstBeer.get(i).getOrigin(), lstBeer.get(i).getCapacity(), lstBeer.get(i).getCount(),
+					lstBeer.get(i).getCost());
 		}
 		while (true) {
 			int answer = 0;
-			answer = runMain.handleInputNumberException(answer,"Select number: ");
+			answer = runMain.handleInputNumberException(answer, "Select number: ");
 			if (answer < 1 || answer > lstBeer.size() + 1) {
 				System.out.println(SystemConstant.WRONG_ANSWER);
 			} else {
@@ -307,7 +298,7 @@ public class Client {
 
 		while (true) {
 			int count = 0;
-			count = runMain.handleInputNumberException(count,"How many you want to buy: ");
+			count = runMain.handleInputNumberException(count, "How many you want to buy: ");
 			if (count > selectBeer.getCount()) {
 				System.out.println(selectBeer.getName() + " just have " + selectBeer.getCount());
 				System.out.println("Do you want to buy other beer? (y or n)");
@@ -326,16 +317,16 @@ public class Client {
 				if (RunMain.userAccountDTO.getMoney() < selectBeer.getCost() * countBuy)
 					return;
 				System.out.println("Current your money: " + RunMain.userAccountDTO.getMoney());
-				System.out.println(selectBeer.getName()+" x" + countBuy + ": " + selectBeer.getCost() * countBuy);
-				while(true) {
-					try {						
+				System.out.println(selectBeer.getName() + " x" + countBuy + ": " + selectBeer.getCost() * countBuy);
+				while (true) {
+					try {
 						System.out.println("Are you comfirm? (y or n)");
 						String answer = sc.nextLine();
-						if(answer.equals("y")) {
+						if (answer.equals("y")) {
 							break;
-						}else if(answer.equals("n")) {
+						} else if (answer.equals("n")) {
 							return;
-						}else {
+						} else {
 							throw new Exception(SystemConstant.WRONG_ANSWER);
 						}
 					} catch (Exception e) {
@@ -376,17 +367,17 @@ public class Client {
 
 	private void checkMoneyMin() {
 		while (true) {
-			if (RunMain.userAccountDTO.getMoney() < runMain.MIN_COST) {
+			if (RunMain.userAccountDTO.getMoney() < MIN_COST) {
 				System.out.println("Current your money: " + RunMain.userAccountDTO.getMoney());
 				System.out.println("Your money not enough! Do you want to add your money (min = 20000) ? (y or n)");
 				String answer = sc.nextLine();
 				if (answer.equals("y")) {
 					System.out.print("You want to add: ");
 					int moneyAdd = 0;
-					moneyAdd = runMain.handleInputNumberException(moneyAdd,"You want to add: ");
+					moneyAdd = runMain.handleInputNumberException(moneyAdd, "You want to add: ");
 					if (moneyAdd < SystemConstant.MIN_ADD_MONEY) {
 						System.out.println("Your extra money not equal min (20000) ");
-//						
+						checkContinue();
 					} else {
 						RunMain.userAccountDTO.setMoney(RunMain.userAccountDTO.getMoney() + moneyAdd);
 						int result = userAccountDAO.update(RunMain.userAccountDTO);
@@ -428,7 +419,7 @@ public class Client {
 			String answer = sc.nextLine();
 			if (answer.equals("y")) {
 				int moneyAdd = 0;
-				moneyAdd = runMain.handleInputNumberException(moneyAdd,"Please add more money\nYou want to add: ");
+				moneyAdd = runMain.handleInputNumberException(moneyAdd, "Please add more money\nYou want to add: ");
 				if (moneyAdd < SystemConstant.MIN_ADD_MONEY) {
 					System.out.println("Your extra money not equal min (20000) ");
 					continue;
@@ -450,6 +441,24 @@ public class Client {
 
 		}
 	}
+	
+	private void checkContinue() {
+		while(true) {
+			try {					
+				System.out.println("Do you want to continue? (y or n)");
+				String answer = sc.nextLine();
+				if(answer.equals("y")) {
+					break;
+				}else if(answer.equals("n")) {
+					return;
+				}else {
+					throw new Exception(SystemConstant.WRONG_ANSWER);
+				}
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+		}
+	}
 
 	private void exportReceipt() {
 		try {
@@ -458,11 +467,13 @@ public class Client {
 			String receiptUrl = "D:/Giang/Document/Resource java/git/Beersale/BeerSale/receipt/Receipt.txt";
 			FileOutputStream fo = new FileOutputStream(receiptUrl);
 			buffer.append("=========================Receipt=========================\n");
-			buffer.append(String.format("%-10s %-10s \n", "User name:",RunMain.userDTO.getName()));
-			buffer.append(String.format("%-10s %-10s \n", "Receipt id:",receipt.getId()));
-			buffer.append(String.format("%-5s %-20s %-10s \n","","Name(x Count)","Cost"));
+			buffer.append(String.format("%-10s %-10s \n", "User name:", RunMain.userDTO.getName()));
+			buffer.append(String.format("%-10s %-10s \n", "Receipt id:", receipt.getId()));
+			buffer.append(String.format("%-5s %-20s %-10s \n", "", "Name(x Count)", "Cost"));
 			for (int i = 0; i < RunMain.lstReceiptDetail.size(); i++) {
-				buffer.append(String.format("%-5s %-20s %-10s \n", (i + 1) + ". ",lstBeerName.get(i) + " x" + RunMain.lstReceiptDetail.get(i).getCount(),RunMain.lstReceiptDetail.get(i).getCost()));
+				buffer.append(String.format("%-5s %-20s %-10s \n", (i + 1) + ". ",
+						lstBeerName.get(i) + " x" + RunMain.lstReceiptDetail.get(i).getCount(),
+						RunMain.lstReceiptDetail.get(i).getCost()));
 			}
 			buffer.append("Total money\t:\t" + receipt.getTotal());
 

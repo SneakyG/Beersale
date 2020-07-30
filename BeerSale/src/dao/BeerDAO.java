@@ -62,7 +62,7 @@ public class BeerDAO extends AbstractDAO<BeerDTO> implements IBeerDAO {
 
 	@Override
 	public int findMinCost() {
-		String sql = "SELECT MIN(cost) cost FROM beer";
+		String sql = "SELECT MIN(cost) cost FROM beer WHERE count > 0";
 		return calculate(sql);
 	}
 

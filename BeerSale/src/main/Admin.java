@@ -19,9 +19,9 @@ import dto.ReceiptDetailDTO;
 import dto.UserAccountDTO;
 
 public class Admin {
-	
+
 	private Scanner sc = new Scanner(System.in);
-	
+
 	private IUserAccountDAO userAccountDAO;
 	private IBeerDAO beerDAO;
 	private IReceiptDAO receiptDAO;
@@ -47,7 +47,7 @@ public class Admin {
 				System.out.println("4. Log out");
 				System.out.println("5. Exit");
 				int answer = 0;
-				answer = runMain.handleInputNumberException(answer,SystemConstant.ANSWER);
+				answer = runMain.handleInputNumberException(answer, SystemConstant.ANSWER);
 				switch (answer) {
 				case 1:
 					beerInterface();
@@ -89,7 +89,7 @@ public class Admin {
 				System.out.println("6. Back admin");
 				System.out.println("7. Exit");
 				int answer = 0;
-				answer = runMain.handleInputNumberException(answer,SystemConstant.ANSWER);
+				answer = runMain.handleInputNumberException(answer, SystemConstant.ANSWER);
 				switch (answer) {
 				case 1:
 					showAccounts();
@@ -125,9 +125,12 @@ public class Admin {
 	private void showAccounts() {
 		List<UserAccountDTO> lstAccount = new ArrayList<>();
 		lstAccount = userAccountDAO.findAll();
-		System.out.printf("%-5s %-20s %-20s %-20s %-20s %-20s \n","","User name","Password","Role id","Status","Money");
+		System.out.printf("%-5s %-20s %-20s %-20s %-20s %-20s \n", "", "User name", "Password", "Role id", "Status",
+				"Money");
 		for (int i = 0; i < lstAccount.size(); i++) {
-			System.out.printf("%-5s %-20s %-20s %-20s %-20s %-20s \n",i+1,lstAccount.get(i).getUserName(),lstAccount.get(i).getPassword(),lstAccount.get(i).getRoleId(),lstAccount.get(i).getStatus(),lstAccount.get(i).getMoney());
+			System.out.printf("%-5s %-20s %-20s %-20s %-20s %-20s \n", i + 1, lstAccount.get(i).getUserName(),
+					lstAccount.get(i).getPassword(), lstAccount.get(i).getRoleId(), lstAccount.get(i).getStatus(),
+					lstAccount.get(i).getMoney());
 		}
 	}
 
@@ -137,8 +140,11 @@ public class Admin {
 		UserAccountDTO searchAccount = new UserAccountDTO();
 		searchAccount = userAccountDAO.findOneByUserName(inputUsername);
 		if (searchAccount != null) {
-			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n","Id","User name","Password","Role id","Status","Money");
-			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n",searchAccount.getId(),searchAccount.getUserName(),searchAccount.getPassword(),searchAccount.getRoleId(),searchAccount.getStatus(),searchAccount.getMoney());
+			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n", "Id", "User name", "Password", "Role id",
+					"Status", "Money");
+			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n", searchAccount.getId(),
+					searchAccount.getUserName(), searchAccount.getPassword(), searchAccount.getRoleId(),
+					searchAccount.getStatus(), searchAccount.getMoney());
 		} else {
 			System.out.println("This account don't exist!");
 		}
@@ -147,13 +153,16 @@ public class Admin {
 	private void changePassword() {
 		searchCheck(SystemConstant.SEARCH_ACCOUNT);
 		int inputUpdate = 0;
-		inputUpdate = runMain.handleInputNumberException(inputUpdate,"Input id want to update: ");
+		inputUpdate = runMain.handleInputNumberException(inputUpdate, "Input id want to update: ");
 		UserAccountDTO updateAccount = userAccountDAO.findOneById(inputUpdate);
 		if (updateAccount == null) {
 			System.out.println("This account don't exist!");
 		} else {
-			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n","Id","User name","Password","Role id","Status","Money");
-			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n",updateAccount.getId(),updateAccount.getUserName(),updateAccount.getPassword(),updateAccount.getRoleId(),updateAccount.getStatus(),updateAccount.getMoney());
+			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n", "Id", "User name", "Password", "Role id",
+					"Status", "Money");
+			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n", updateAccount.getId(),
+					updateAccount.getUserName(), updateAccount.getPassword(), updateAccount.getRoleId(),
+					updateAccount.getStatus(), updateAccount.getMoney());
 			System.out.print("New password: ");
 			String newPassword = sc.nextLine();
 			updateAccount.setPassword(newPassword);
@@ -161,8 +170,11 @@ public class Admin {
 			userAccountDAO.update(updateAccount);
 			updateAccount = userAccountDAO.findOneById(updateAccount.getId());
 			System.out.println("Change password successfully");
-			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n","Id","User name","Password","Role id","Status","Money");
-			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n",updateAccount.getId(),updateAccount.getUserName(),updateAccount.getPassword(),updateAccount.getRoleId(),updateAccount.getStatus(),updateAccount.getMoney());
+			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n", "Id", "User name", "Password", "Role id",
+					"Status", "Money");
+			System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s \n", updateAccount.getId(),
+					updateAccount.getUserName(), updateAccount.getPassword(), updateAccount.getRoleId(),
+					updateAccount.getStatus(), updateAccount.getMoney());
 		}
 
 	}
@@ -170,7 +182,7 @@ public class Admin {
 	private void lockAccount() {
 		searchCheck(SystemConstant.SEARCH_ACCOUNT);
 		int inputUpdate = 0;
-		inputUpdate = runMain.handleInputNumberException(inputUpdate,"Input id want to lock: ");
+		inputUpdate = runMain.handleInputNumberException(inputUpdate, "Input id want to lock: ");
 		UserAccountDTO lockAccount = userAccountDAO.findOneById(inputUpdate);
 		if (lockAccount == null) {
 			System.out.println("This account don't exist!");
@@ -188,7 +200,7 @@ public class Admin {
 	private void unlockAccount() {
 		searchCheck(SystemConstant.SEARCH_ACCOUNT);
 		int inputUpdate = 0;
-		inputUpdate = runMain.handleInputNumberException(inputUpdate,"Input id want to unlock: ");
+		inputUpdate = runMain.handleInputNumberException(inputUpdate, "Input id want to unlock: ");
 		UserAccountDTO unlockAccount = userAccountDAO.findOneById(inputUpdate);
 		if (unlockAccount == null) {
 			System.out.println("This account don't exist!");
@@ -240,7 +252,7 @@ public class Admin {
 				System.out.println("6. Back admin");
 				System.out.println("7. Exit");
 				int answer = 0;
-				answer = runMain.handleInputNumberException(answer,SystemConstant.ANSWER);
+				answer = runMain.handleInputNumberException(answer, SystemConstant.ANSWER);
 				switch (answer) {
 				case 1:
 					showMenu();
@@ -278,29 +290,42 @@ public class Admin {
 		System.out.println("==================Menu===================");
 		List<BeerDTO> lstBeer = new ArrayList<>();
 		lstBeer = beerDAO.findAll();
-		System.out.printf("%-5s %-25s %-25s %-20s %-20s %-25s %-20s %-10s %-10s %-15s %-25s %-25s \n","","Name","Brand","Origin brand","Origin","Ingredients","Capacity","Count","Cost","Register id","Register date","Update id","Update date");
+		System.out.printf("%-5s %-25s %-25s %-20s %-20s %-25s %-20s %-10s %-10s %-15s %-25s %-25s \n", "", "Name",
+				"Brand", "Origin brand", "Origin", "Ingredients", "Capacity", "Count", "Cost", "Register id",
+				"Register date", "Update id", "Update date");
 		for (int i = 0; i < lstBeer.size(); i++) {
 			String ingredient = handleIngredientString(lstBeer.get(i).getIngredient());
-			System.out.printf("%-5s %-25s %-25s %-20s %-20s %-25s %-20s %-10s %-10s %-15s %-25s %-25s \n",i+1,lstBeer.get(i).getName(),lstBeer.get(i).getBrand(),lstBeer.get(i).getOriginBrand(),lstBeer.get(i).getOrigin(),ingredient,lstBeer.get(i).getCapacity(),lstBeer.get(i).getCount(),lstBeer.get(i).getCost(),lstBeer.get(i).getRegId(),lstBeer.get(i).getRegDate(),lstBeer.get(i).getUpdtId(),lstBeer.get(i).getUpdtDate());
+			System.out.printf("%-5s %-25s %-25s %-20s %-20s %-25s %-20s %-10s %-10s %-15s %-25s %-25s \n", i + 1,
+					lstBeer.get(i).getName(), lstBeer.get(i).getBrand(), lstBeer.get(i).getOriginBrand(),
+					lstBeer.get(i).getOrigin(), ingredient, lstBeer.get(i).getCapacity(), lstBeer.get(i).getCount(),
+					lstBeer.get(i).getCost(), lstBeer.get(i).getRegId(), lstBeer.get(i).getRegDate(),
+					lstBeer.get(i).getUpdtId(), lstBeer.get(i).getUpdtDate());
 		}
 	}
 
 	private String handleIngredientString(String ingredient) {
-		if(ingredient.length() >= 20) {
+		if (ingredient.length() >= 20) {
 			ingredient = ingredient.substring(0, 20) + "...";
 		}
 		return ingredient;
 	}
-	
+
 	private void searchBeer() {
 		System.out.print("Input brand : ");
 		String inputBrand = sc.nextLine();
 		List<BeerDTO> searchBeer = beerDAO.findAllByBrand(inputBrand);
 		if (searchBeer.size() != 0) {
-			System.out.printf("%-5s %-10s %-25s %-25s %-20s %-20s %-25s %-20s %-10s %-10s %-15s %-25s %-25s \n","","Id","Name","Brand","Origin brand","Origin","Ingredients","Capacity","Count","Cost","Register id","Register date","Update id","Update date");
+			System.out.printf("%-5s %-10s %-25s %-25s %-20s %-20s %-25s %-20s %-10s %-10s %-15s %-25s %-25s \n", "",
+					"Id", "Name", "Brand", "Origin brand", "Origin", "Ingredients", "Capacity", "Count", "Cost",
+					"Register id", "Register date", "Update id", "Update date");
 			for (int i = 0; i < searchBeer.size(); i++) {
 				String ingredient = handleIngredientString(searchBeer.get(i).getIngredient());
-				System.out.printf("%-5s %-10s %-25s %-25s %-20s %-20s %-25s %-20s %-10s %-10s %-15s %-25s %-25s \n",i+1,searchBeer.get(i).getId(),searchBeer.get(i).getName(),searchBeer.get(i).getBrand(),searchBeer.get(i).getOriginBrand(),searchBeer.get(i).getOrigin(),ingredient,searchBeer.get(i).getCapacity(),searchBeer.get(i).getCount(),searchBeer.get(i).getCost(),searchBeer.get(i).getRegId(),searchBeer.get(i).getRegDate(),searchBeer.get(i).getUpdtId(),searchBeer.get(i).getUpdtDate());
+				System.out.printf("%-5s %-10s %-25s %-25s %-20s %-20s %-25s %-20s %-10s %-10s %-15s %-25s %-25s \n",
+						i + 1, searchBeer.get(i).getId(), searchBeer.get(i).getName(), searchBeer.get(i).getBrand(),
+						searchBeer.get(i).getOriginBrand(), searchBeer.get(i).getOrigin(), ingredient,
+						searchBeer.get(i).getCapacity(), searchBeer.get(i).getCount(), searchBeer.get(i).getCost(),
+						searchBeer.get(i).getRegId(), searchBeer.get(i).getRegDate(), searchBeer.get(i).getUpdtId(),
+						searchBeer.get(i).getUpdtDate());
 			}
 		} else {
 			System.out.println("Nothing!!");
@@ -329,9 +354,9 @@ public class Admin {
 		System.out.print("Capacity: ");
 		String capacity = sc.nextLine();
 		int count = 0;
-		count = runMain.handleInputNumberException(count,"Count: ");
+		count = runMain.handleInputNumberException(count, "Count: ");
 		int cost = 0;
-		cost = runMain.handleInputNumberException(cost,"Cost: ");
+		cost = runMain.handleInputNumberException(cost, "Cost: ");
 		BeerDTO beer = new BeerDTO(name, brand, originBrand, origin, ingredient, capacity, count, cost);
 		int id = RunMain.userDTO.getId();
 		beer.setRegId(id);
@@ -350,7 +375,7 @@ public class Admin {
 				System.out.println("2. Add count beer");
 				System.out.println("3. Back");
 				int answer = 0;
-				answer = runMain.handleInputNumberException(answer,SystemConstant.ANSWER);
+				answer = runMain.handleInputNumberException(answer, SystemConstant.ANSWER);
 				if (answer == 1) {
 					editBeer();
 				} else if (answer == 2) {
@@ -387,7 +412,7 @@ public class Admin {
 		System.out.print("Capacity: " + editBeer.getCapacity() + " -> ");
 		String capacity = sc.nextLine();
 		int cost = 0;
-		cost = runMain.handleInputNumberException(cost,"Cost: " + editBeer.getCost() + " -> ");
+		cost = runMain.handleInputNumberException(cost, "Cost: " + editBeer.getCost() + " -> ");
 
 		editBeer = new BeerDTO(editBeer.getId(), name, brand, originBrand, origin, ingredient, capacity,
 				editBeer.getCount(), cost);
@@ -404,7 +429,7 @@ public class Admin {
 
 		BeerDTO addCountBeer = beerDAO.findOne(id);
 		int count = 0;
-		count = runMain.handleInputNumberException(count,"Input number to add: ");
+		count = runMain.handleInputNumberException(count, "Input number to add: ");
 		addCountBeer.setCount(addCountBeer.getCount() + count);
 		addCountBeer.setUpdtId(RunMain.userDTO.getId());
 		int result = beerDAO.update(addCountBeer);
@@ -437,7 +462,7 @@ public class Admin {
 	private int checkBeerExist() {
 		int id = 0;
 		while (true) {
-			id = runMain.handleInputNumberException(id,"Input id: ");
+			id = runMain.handleInputNumberException(id, "Input id: ");
 			if (beerDAO.findOne(id) != null) {
 				break;
 			} else {
@@ -475,7 +500,7 @@ public class Admin {
 				System.out.println("6. Back admin");
 				System.out.println("7. Exit");
 				int answer = 0;
-				answer = runMain.handleInputNumberException(answer,SystemConstant.ANSWER);
+				answer = runMain.handleInputNumberException(answer, SystemConstant.ANSWER);
 				switch (answer) {
 				case 1:
 					showReceipt();
@@ -512,19 +537,25 @@ public class Admin {
 	private void showReceipt() {
 		List<ReceiptDTO> lstReceipt = new ArrayList<>();
 		lstReceipt = receiptDAO.findAll();
-		System.out.printf("%-5s %-15s %-15s %-15s %-15s %-25s %-15s %-10s \n","","User id","Total","Status","Register id","Register date","Update id","Update date");
+		System.out.printf("%-5s %-15s %-15s %-15s %-15s %-25s %-15s %-10s \n", "", "User id", "Total", "Status",
+				"Register id", "Register date", "Update id", "Update date");
 		for (int i = 0; i < lstReceipt.size(); i++) {
-			System.out.printf("%-5s %-15s %-15s %-15s %-15s %-25s %-15s %-10s \n",i+1,lstReceipt.get(i).getUserId(),lstReceipt.get(i).getTotal(),lstReceipt.get(i).getStatus(),lstReceipt.get(i).getRegId(),lstReceipt.get(i).getRegDate(),lstReceipt.get(i).getUpdtId(),lstReceipt.get(i).getUpdtDate());
+			System.out.printf("%-5s %-15s %-15s %-15s %-15s %-25s %-15s %-10s \n", i + 1, lstReceipt.get(i).getUserId(),
+					lstReceipt.get(i).getTotal(), lstReceipt.get(i).getStatus(), lstReceipt.get(i).getRegId(),
+					lstReceipt.get(i).getRegDate(), lstReceipt.get(i).getUpdtId(), lstReceipt.get(i).getUpdtDate());
 		}
 	}
 
 	private void searchReceipt() {
 		int inputId = 0;
-		inputId = runMain.handleInputNumberException(inputId,"Input id : ");
+		inputId = runMain.handleInputNumberException(inputId, "Input id : ");
 		ReceiptDTO searchReceipt = receiptDAO.findOne(inputId);
 		if (searchReceipt != null) {
-			System.out.printf("%-10s %-15s %-15s %-15s %-25s %-15s %-10s \n","User id","Total","Status","Register id","Register date","Update id","Update date");
-			System.out.printf("%-10s %-15s %-15s %-15s %-25s %-15s %-10s \n",searchReceipt.getUserId(),searchReceipt.getTotal(),searchReceipt.getStatus(),searchReceipt.getRegId(),searchReceipt.getRegDate(),searchReceipt.getUpdtId(),searchReceipt.getUpdtDate());
+			System.out.printf("%-10s %-15s %-15s %-15s %-25s %-15s %-10s \n", "User id", "Total", "Status",
+					"Register id", "Register date", "Update id", "Update date");
+			System.out.printf("%-10s %-15s %-15s %-15s %-25s %-15s %-10s \n", searchReceipt.getUserId(),
+					searchReceipt.getTotal(), searchReceipt.getStatus(), searchReceipt.getRegId(),
+					searchReceipt.getRegDate(), searchReceipt.getUpdtId(), searchReceipt.getUpdtDate());
 		} else {
 			System.out.println("Nothing!!");
 		}
@@ -533,7 +564,7 @@ public class Admin {
 	private void checkReceipt() {
 		searchCheck(SystemConstant.SEARCH_RECEIPT);
 		int inputId = 0;
-		inputId = runMain.handleInputNumberException(inputId,"Input id : ");
+		inputId = runMain.handleInputNumberException(inputId, "Input id : ");
 		ReceiptDTO checkReceipt = receiptDAO.findOne(inputId);
 		if (checkReceipt != null) {
 			if (checkReceipt.getStatus() == 0) {
@@ -552,21 +583,34 @@ public class Admin {
 	private void showReceiptDetail() {
 		List<ReceiptDetailDTO> lstReceiptDetail = new ArrayList<>();
 		lstReceiptDetail = receiptDetailDAO.findAll();
-		System.out.printf("%-5s %-25s %-25s %-20s %-20s %-25s %-25s %-25s %-25s %-15s \n","","Beer id","User id","Receipt id","Count","Cost","Register id","Register date","Update id","Update date");
+		System.out.printf("%-5s %-25s %-25s %-20s %-20s %-25s %-25s %-25s %-25s %-15s \n", "", "Beer id", "User id",
+				"Receipt id", "Count", "Cost", "Register id", "Register date", "Update id", "Update date");
 		for (int i = 0; i < lstReceiptDetail.size(); i++) {
-			System.out.printf("%-5s %-25s %-25s %-20s %-20s %-25s %-25s %-25s %-25s %-15s \n",i+1,lstReceiptDetail.get(i).getBeerId(),lstReceiptDetail.get(i).getUserId(),lstReceiptDetail.get(i).getReceiptId(),lstReceiptDetail.get(i).getCount(),lstReceiptDetail.get(i).getCost(),lstReceiptDetail.get(i).getRegId(),lstReceiptDetail.get(i).getRegDate(),lstReceiptDetail.get(i).getUpdtId(),lstReceiptDetail.get(i).getUpdtDate());
+			System.out.printf("%-5s %-25s %-25s %-20s %-20s %-25s %-25s %-25s %-25s %-15s \n", i + 1,
+					lstReceiptDetail.get(i).getBeerId(), lstReceiptDetail.get(i).getUserId(),
+					lstReceiptDetail.get(i).getReceiptId(), lstReceiptDetail.get(i).getCount(),
+					lstReceiptDetail.get(i).getCost(), lstReceiptDetail.get(i).getRegId(),
+					lstReceiptDetail.get(i).getRegDate(), lstReceiptDetail.get(i).getUpdtId(),
+					lstReceiptDetail.get(i).getUpdtDate());
 		}
 	}
 
 	private void showReceiptDetailByReceiptId() {
 		List<ReceiptDetailDTO> lstReceiptDetail = new ArrayList<>();
 		int id = 0;
-		id = runMain.handleInputNumberException(id,"Input receipt id: ");
+		id = runMain.handleInputNumberException(id, "Input receipt id: ");
 		lstReceiptDetail = receiptDetailDAO.findByReceiptId(id);
 		if (lstReceiptDetail != null) {
-			System.out.printf("%-5s %-10s %-25s %-25s %-20s %-20s %-25s %-25s %-25s %-25s %-15s \n","","Id","Beer id","User id","Receipt id","Count","Cost","Register id","Register date","Update id","Update date");
+			System.out.printf("%-5s %-10s %-25s %-25s %-20s %-20s %-25s %-25s %-25s %-25s %-15s \n", "", "Id",
+					"Beer id", "User id", "Receipt id", "Count", "Cost", "Register id", "Register date", "Update id",
+					"Update date");
 			for (int i = 0; i < lstReceiptDetail.size(); i++) {
-				System.out.printf("%-5s %-10s %-25s %-25s %-20s %-20s %-25s %-25s %-25s %-25s %-15s \n",i+1,lstReceiptDetail.get(i).getId(),lstReceiptDetail.get(i).getBeerId(),lstReceiptDetail.get(i).getUserId(),lstReceiptDetail.get(i).getReceiptId(),lstReceiptDetail.get(i).getCount(),lstReceiptDetail.get(i).getCost(),lstReceiptDetail.get(i).getRegId(),lstReceiptDetail.get(i).getRegDate(),lstReceiptDetail.get(i).getUpdtId(),lstReceiptDetail.get(i).getUpdtDate());
+				System.out.printf("%-5s %-10s %-25s %-25s %-20s %-20s %-25s %-25s %-25s %-25s %-15s \n", i + 1,
+						lstReceiptDetail.get(i).getId(), lstReceiptDetail.get(i).getBeerId(),
+						lstReceiptDetail.get(i).getUserId(), lstReceiptDetail.get(i).getReceiptId(),
+						lstReceiptDetail.get(i).getCount(), lstReceiptDetail.get(i).getCost(),
+						lstReceiptDetail.get(i).getRegId(), lstReceiptDetail.get(i).getRegDate(),
+						lstReceiptDetail.get(i).getUpdtId(), lstReceiptDetail.get(i).getUpdtDate());
 			}
 		} else {
 			System.out.println("Nothing!!!");
